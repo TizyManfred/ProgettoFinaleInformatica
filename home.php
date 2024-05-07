@@ -603,13 +603,13 @@
         </div>
         <div class="col-lg-4">
           <div class="border-button">
-            <a href="prenotaParcheggio.html">Prenota parcheggio</a>
+            <a href="prenotaParcheggio.php">Prenota parcheggio</a>
           </div>
 
           <br>
 
           <div class="border-button">
-            <a href="noleggioAuto.html">Noleggia veicolo</a>
+            <a href="noleggioAuto.php">Noleggia veicolo</a>
           </div>
         </div>
       </div>
