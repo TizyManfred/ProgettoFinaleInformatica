@@ -98,7 +98,7 @@
             <div class="main-caption">
               <h2>Di che cosa hai bisogno:</h2>
               <h1>Noleggio auto</h1>
-              <div class="border-button"><a href="about.html">Maggiori informazioni sulla Azienda</a></div>
+              <div class="border-button"><a href="about.php">Maggiori informazioni sulla Azienda</a></div>
             </div>
 
             <div class="container">
@@ -170,7 +170,7 @@
 
                       <div class="col-lg-3 col-sm-6 col-6">
                         <div class="main-button">
-                          <a href="noleggioAuto.html">Noleggia un veicolo</a>
+                          <a href="noleggioAuto.php">Noleggia un veicolo</a>
                         </div>
                       </div>
                     </div>
@@ -186,7 +186,7 @@
             <div class="main-caption">
               <h2>Di che cosa hai bisogno:</h2>
               <h1>Prenotazione parcheggi</h1>
-              <div class="border-button"><a href="about.html">Maggiori informazioni sulla Azienda</a></div>
+              <div class="border-button"><a href="about.php">Maggiori informazioni sulla Azienda</a></div>
             </div>
 
             <div class="container">
@@ -252,7 +252,7 @@
                       </div>
                       <div class="col-lg-3 col-sm-6 col-6">
                         <div class="main-button">
-                          <a href="prenotaParcheggio.html">Prenota un parcheggio</a>
+                          <a href="prenotaParcheggio.php">Prenota un parcheggio</a>
                         </div>
                       </div>
                     </div>
