@@ -276,7 +276,7 @@
   <!-- ***** Main Banner Area End ***** -->
 
   <?php
-  $conn->close();
+    $conn->close();
   ?>
 
 <div class="visit-country">
@@ -284,8 +284,8 @@
       <div class="row">
         <div class="col-lg-5">
           <div class="section-heading">
-            <h2>Ecco gli areoporti piu gettonati</h2>
-            <p>Questi sono gli aereoporti dove ogni giorno usufuiscono del nostro servizio più persone</p>
+            <h2>Ecco gli aeroporti piu gettonati</h2>
+            <p>Questi sono gli aeroporti dove ogni giorno usufuiscono del nostro servizio più persone</p>
           </div>
         </div>
       </div>
@@ -307,7 +307,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoporto JFK (New York)</h4>
+                          <h4>Aeroporto JFK (New York)</h4>
                           <span>Stati Uniti</span>
 
                           <div class="main-button">

@@ -74,10 +74,10 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h4>Book Prefered Deal Here</h4>
-          <h2>Make Your Reservation</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt uttersi labore et dolore magna aliqua is ipsum suspendisse ultrices gravida</p>
-          <div class="main-button"><a href="about.html">Discover More</a></div>
+          <h4>Devi noleggiare un veicolo</h4>
+          <h2>Noleggialo qui</h2>
+          <p>Nel nostro parco macchine ci sono molti veicoli scegli il più adatto, verifica la disponibilità nel tuo aeroporto e effettua la prenotazione</p>
+          <div class="main-button"><a href="about.php">Maggiori informazioni su di noi</a></div>
         </div>
       </div>
     </div>
@@ -105,6 +105,73 @@ https://templatemo.com/tm-580-woox-travel
             <i class="fa fa-map-marker"></i>
             <h4>Visit Our Offices</h4>
             <a href="#">24th Street North Avenue London, UK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="weekly-offers">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="section-heading text-center">
+            <h2>Best Weekly Offers In Each City</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="owl-weekly-offers owl-carousel">
+
+          <?php
+            include("connessione.php");
+            $sql = "SELECT `immaginiveicoli`.`Id` AS `Id`, `immaginiveicoli`.`marca` AS `marca`, `immaginiveicoli`.`modello` AS `modello`, `immaginiveicoli`.`linkImmagine` AS `linkImmagine`, `veicolonoleggio`.`numeroPosti` AS `numeroPosti`, `veicolonoleggio`.`tipologia` AS `tipologia`, avg(`veicolonoleggio`.`costoGiornaliero`) AS `costoMedio` FROM `immaginiveicoli` INNER JOIN `veicolonoleggio` ON (`veicolonoleggio`.`modello` = `immaginiveicoli`.`modello` AND `veicolonoleggio`.`marca` = `immaginiveicoli`.`marca`)";
+            $result = $conn->query($sql);
+
+            if ($result === true) {
+              //echo "Errore nella query: " . $conn->error;
+            } else {
+              if ($result->num_rows > 0) {
+                // Output dei dati di ogni riga
+                while($row = $result->fetch_assoc()) {
+                  echo "<div class='item'>
+                  <div class='thumb'>
+                    <img src='".$row['linkImmagine']."' alt=''>
+                    <div class='text'>
+                      <h4>".$row['modello']."<br><span>".$row['marca']."</span></h4>
+                      <h6>".."<br><span>/giorno</span></h6>
+                      <div class='line-dec'></div>
+                      <ul>
+                        <li>Deal Includes:</li>
+                        <li><i class='fa fa-taxi'></i> 5 Days Trip > Hotel Included</li>
+                        <li><i class='fa fa-plane'></i> Airplane Bill Included</li>
+                        <li><i class='fa fa-building'></i> Daily Places Visit</li>
+                      </ul>
+                      <div class='main-button'>
+                        <a href='reservation.html'>Make a Reservation</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>";
+
+                    echo "ID: " . $row["id"]. " - Nome: " . $row["nome"]. " " . $row["cognome"]. "<br>";
+                }
+              } else {
+                //echo "0 risultati";
+              }
+            }
+
+            $conn->close();
+          ?>
+
+            
+
           </div>
         </div>
       </div>
