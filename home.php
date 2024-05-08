@@ -125,8 +125,6 @@
                               $count = $row['COUNT(*)'];
                               echo $count;
                             }
-          
-                            
                           ?>
                         </h4>
                       </div>

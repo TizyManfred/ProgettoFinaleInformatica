@@ -15,6 +15,9 @@
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!--CSS per icone-->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
@@ -31,6 +34,13 @@ https://templatemo.com/tm-580-woox-travel
   </head>
 
 <body>
+  <?php
+    session_start();
+    if (!(isset($_SESSION["utente"]))) {
+      header("Location: accedi.php");
+      exit;
+    }
+  ?>
 
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
@@ -88,23 +98,70 @@ https://templatemo.com/tm-580-woox-travel
       <div class="row">
         <div class="col-lg-4 col-sm-6">
           <div class="info-item">
-            <i class="fa fa-phone"></i>
-            <h4>Make a Phone Call</h4>
-            <a href="#">+123 456 789 (0)</a>
+            <i class="bi bi-airplane-engines-fill"></i>
+            <h4>Areoporti gestiti</h4>
+              <h3 style="color: #22b3c1;">
+                <?php
+                  include("connessione.php");
+                  $sql = "SELECT COUNT(*) FROM `Aeroporti`";
+                  $result = $conn->query($sql);
+
+                  if ($result === false) {
+                    //echo "Errore nella query: " . $conn->error;
+                  } else {
+                    // Estrai il risultato come array associativo
+                    $row = $result->fetch_assoc();
+                    // Estrai il valore del conteggio dalla prima colonna
+                    $count = $row['COUNT(*)'];
+                    echo $count;
+                  }
+                ?>
+              </h3>
           </div>
         </div>
         <div class="col-lg-4 col-sm-6">
           <div class="info-item">
-            <i class="fa fa-envelope"></i>
-            <h4>Contact Us via Email</h4>
-            <a href="#">company@email.com</a>
+            <i class="bi bi-car-front-fill"></i>
+            <h4>Veicoli disponibili</h4>
+            <h3 style="color: #22b3c1;">
+              <?php
+                include "connessione.php";
+
+                $sql = "SELECT COUNT(*) FROM `VeicoloNoleggio`";
+                $result = $conn->query($sql);
+
+                if ($result === false) {
+                  //echo "Errore nella query: " . $conn->error;
+                } else {
+                  // Estrai il risultato come array associativo
+                  $row = $result->fetch_assoc();
+                  // Estrai il valore del conteggio dalla prima colonna
+                  $count = $row['COUNT(*)'];
+                  echo $count;
+                }
+              ?>
+            </h3>
           </div>
         </div>
         <div class="col-lg-4 col-sm-6">
           <div class="info-item">
-            <i class="fa fa-map-marker"></i>
-            <h4>Visit Our Offices</h4>
-            <a href="#">24th Street North Avenue London, UK</a>
+            <i class="bi bi-cash-stack"></i>
+            <h4>Costo medio</h4>
+            <h3 style="color: #22b3c1;">
+              <?php
+                $sql = "SELECT AVG(costoGiornaliero) FROM `VeicoloNoleggio`";
+                $result = $conn->query($sql);
+
+                if ($result === false) {
+                  //echo "Errore nella query: " . $conn->error;
+                } else {
+                  $row = $result->fetch_assoc();
+                  $prezzoMedioAuto = $row['AVG(costoGiornaliero)'];
+                  $prezzoAuto = round($prezzoMedioAuto, 2);
+                  echo $prezzoAuto."€";
+                }
+              ?>
+            </h3>
           </div>
         </div>
       </div>
@@ -117,8 +174,8 @@ https://templatemo.com/tm-580-woox-travel
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
           <div class="section-heading text-center">
-            <h2>Best Weekly Offers In Each City</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <h2>Scopri i nostri veicoli</h2>
+            <p>Puoi scegliere il veicolo che si adatta maggiormente alle tue esigenze e effettuare direttamente qui il noleggio</p>
           </div>
         </div>
       </div>
@@ -130,8 +187,7 @@ https://templatemo.com/tm-580-woox-travel
           <div class="owl-weekly-offers owl-carousel">
 
           <?php
-            include("connessione.php");
-            $sql = "SELECT `immaginiveicoli`.`Id` AS `Id`, `immaginiveicoli`.`marca` AS `marca`, `immaginiveicoli`.`modello` AS `modello`, `immaginiveicoli`.`linkImmagine` AS `linkImmagine`, `veicolonoleggio`.`numeroPosti` AS `numeroPosti`, `veicolonoleggio`.`tipologia` AS `tipologia`, avg(`veicolonoleggio`.`costoGiornaliero`) AS `costoMedio` FROM `immaginiveicoli` INNER JOIN `veicolonoleggio` ON (`veicolonoleggio`.`modello` = `immaginiveicoli`.`modello` AND `veicolonoleggio`.`marca` = `immaginiveicoli`.`marca`)";
+            $sql = "SELECT `immaginiveicoli`.`marca` AS `marca`, `immaginiveicoli`.`modello` AS `modello`, `immaginiveicoli`.`linkImmagine` AS `linkImmagine`, `veicolonoleggio`.`numeroPosti` AS `numeroPosti`, `veicolonoleggio`.`tipologia` AS `tipologia` FROM `immaginiveicoli` INNER JOIN `veicolonoleggio` ON (`veicolonoleggio`.`modello` = `immaginiveicoli`.`modello` AND `veicoloNoleggio`.`marca` = `immaginiveicoli`.`marca`)";
             $result = $conn->query($sql);
 
             if ($result === true) {
@@ -140,34 +196,57 @@ https://templatemo.com/tm-580-woox-travel
               if ($result->num_rows > 0) {
                 // Output dei dati di ogni riga
                 while($row = $result->fetch_assoc()) {
+
+                  $sql2 = "SELECT AVG(`costoGiornaliero`) AS `costoMedio` FROM `VeicoloNoleggio` WHERE `modello`='".$row['modello']."' AND `marca`='".$row['marca']."'";
+                  $result2 = $conn->query($sql2);
+
+                  if ($result2 === false) {
+                    //echo "Errore nella query: " . $conn->error;
+                  } else {
+                    $row2 = $result2->fetch_assoc();
+                    $prezzoMedioAuto = $row2['costoMedio'];
+                    $prezzoAuto = round($prezzoMedioAuto, 2);
+                  }
+
+                  $sql3 = "SELECT COUNT(*) FROM `VeicoloNoleggio` WHERE `modello`='".$row['modello']."' AND `marca`='".$row['marca']."'";
+                  $result3 = $conn->query($sql3);
+
+                  if ($result3 === false) {
+                    //echo "Errore nella query: " . $conn->error;
+                  } else {
+                    $row3 = $result3->fetch_assoc();
+                    $numVeicoli = $row3['COUNT(*)'];
+                  }
+
                   echo "<div class='item'>
                   <div class='thumb'>
                     <img src='".$row['linkImmagine']."' alt=''>
                     <div class='text'>
                       <h4>".$row['modello']."<br><span>".$row['marca']."</span></h4>
-                      <h6>".."<br><span>/giorno</span></h6>
+                      <h6>".$prezzoAuto."€<br><span>/giorno</span></h6>
                       <div class='line-dec'></div>
                       <ul>
-                        <li>Deal Includes:</li>
-                        <li><i class='fa fa-taxi'></i> 5 Days Trip > Hotel Included</li>
-                        <li><i class='fa fa-plane'></i> Airplane Bill Included</li>
-                        <li><i class='fa fa-building'></i> Daily Places Visit</li>
+                        <li>Dettagli:</li>
+                        <li><i class='bi bi-people-fill'></i> ".$row['numeroPosti']." posti disponibili</li>
+                        <li><i class='bi bi-car-front-fill'></i> ".$row['tipologia']."</li>
+                        <li><i class='bi bi-arrow-counterclockwise'></i> ".$numVeicoli."</li>
                       </ul>
                       <div class='main-button'>
-                        <a href='reservation.html'>Make a Reservation</a>
+                        <form method='POST' action='noleggioAuto.php'>
+                          <input name='modello' value='".$row['modello']."' hidden>
+                          <input name='marca' value='".$row['marca']."' hidden>
+                          <button style='border-style: none; background-color: white;' type='submit'><a>Prenota ora</a></button>
+                        </form>
+                        
                       </div>
                     </div>
                   </div>
                 </div>";
-
-                    echo "ID: " . $row["id"]. " - Nome: " . $row["nome"]. " " . $row["cognome"]. "<br>";
                 }
               } else {
                 //echo "0 risultati";
               }
             }
-
-            $conn->close();
           ?>
 
             
@@ -182,64 +261,170 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <div id="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth" width="100%" height="450px" frameborder="0" style="border:0; border-top-left-radius: 23px; border-top-right-radius: 23px;" allowfullscreen=""></iframe>
-          </div>
-        </div>
-        
-        <div class="col-lg-12">
-          <form id="reservation-form" name="gs" method="submit" role="search" action="#">
+          <form id="reservation-form" name="gs" method="post" action="#">
             <div class="row">
               <div class="col-lg-12">
-                <h4>Make Your <em>Reservation</em> Through This <em>Form</em></h4>
+                <h4>Effettua <em>qui</em> il <em>noleggio</em> del <em>veicolo</em></h4>
               </div>
+
               <div class="col-lg-6">
                   <fieldset>
-                      <label for="Name" class="form-label">Your Name</label>
-                      <input type="text" name="Name" class="Name" placeholder="Ex. John Smithee" autocomplete="on" required>
+                      <label for="Name" class="form-label">Nome: </label>
+                        <?php
+                          $sql = "SELECT `nome`, `cognome`, `dataNascita`, `numeroTelefono`  FROM `Utente` WHERE `mail` = '".$_SESSION["utente"]."'";
+                          $result = $conn->query($sql);
+        
+                          if ($result === false) {
+                            //echo "Errore nella query: " . $conn->error;
+                          } else {
+                            $row = $result->fetch_assoc();
+                            $nome = $row['nome'];
+                            $cognome = $row['cognome'];
+                            $dataNascita = $row['dataNascita'];
+                            $numeroTelefono = $row['numeroTelefono'];
+                          }
+
+                          echo "<input type='text' name='nome' class='Name' value='$nome' disabled>";
+                      ?>
                   </fieldset>
               </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                    <label for="Number" class="form-label">Your Phone Number</label>
-                    <input type="text" name="Number" class="Number" placeholder="Ex. +xxx xxx xxx" autocomplete="on" required>
+                  <label for="cognome" class="form-label">Cognome: </label>
+                  <?php
+                    echo "<input type='text' name='cognome' class='Name' value='$cognome' disabled>";
+                  ?>
                 </fieldset>
               </div>
-              <div class="col-lg-6">
-                  <fieldset>
-                      <label for="chooseGuests" class="form-label">Number Of Guests</label>
-                      <select name="Guests" class="form-select" aria-label="Default select example" id="chooseGuests" onChange="this.form.click()">
-                          <option selected>ex. 3 or 4 or 5</option>
-                          <option type="checkbox" name="option1" value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4+">4+</option>
-                      </select>
-                  </fieldset>
-              </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                    <label for="Number" class="form-label">Check In Date</label>
-                    <input type="date" name="date" class="date" required>
+                  <label for="dataNascita" class="form-label">Data di nascita: </label>
+                  <?php
+                    echo "<input type='text' name='dataNascita' class='date' value='$dataNascita' disabled>";
+                  ?>
                 </fieldset>
               </div>
-              <div class="col-lg-12">
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="numeroTel" class="form-label">Numero di telefono: </label>
+                  <?php
+                    echo "<input type='text' name='numeroTel' class='number' value='+39 ".$numeroTelefono."' disabled>";
+                  ?>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
                   <fieldset>
-                      <label for="chooseDestination" class="form-label">Choose Your Destination</label>
-                      <select name="Destination" class="form-select" aria-label="Default select example" id="chooseCategory" onChange="this.form.click()">
-                          <option selected>ex. Switzerland, Lausanne</option>
-                          <option value="Italy, Roma">Italy, Roma</option>
-                          <option value="France, Paris">France, Paris</option>
-                          <option value="Engaland, London">Engaland, London</option>
-                          <option value="Switzerland, Lausanne">Switzerland, Lausanne</option>
-                      </select>
+                      <label for="marca" class="form-label">Scegli la marca: </label>
+                      <?php
+                        if($_SERVER["REQUEST_METHOD"] == "POST"){
+                          $marca = $_POST["marca"];
+                          $modello = $_POST["modello"];
+
+                          echo "<input type='text' name='marca' class='Name' value='$marca' disabled>";
+
+                        } else {
+                          echo "<select name='marca' class='form-select' aria-label='Default select example' onChange='this.form.click()'>
+                          <option value=''>--</option>
+                          <option value='Skoda'>Skoda</option>
+                          <option value='Ford'>Ford</option>
+                          <option value='Nissan'>Nissan</option>
+                          <option value='Audi'>Audi</option>
+                          <option value='Land Rover'>Land Rover</option>
+                          <option value='Peugeot'>Peugeot</option>
+                          <option value='Toyota'>Toyota</option>
+                          <option value='BMW'>BMW</option>
+                          <option value='Renault'>Renault</option>
+                          <option value='Fiat'>Fiat</option>
+                          <option value='Hyundai'>Hyundai</option>
+                          <option value='Opel'>Opel</option>
+                          <option value='Mercedes-Benz'>Mercedes-Benz</option>
+                          <option value='Kia'>Kia</option>
+                          <option value='Seat'>Seat</option>
+                          <option value='Mitsubishi'>Mitsubishi</option>
+                          <option value='Citroen'>Citroen</option>
+                          <option value='Volkswagen'>Volkswagen</option>
+                        </select>";
+                        }
+                      ?>
+                      
                   </fieldset>
               </div>
-              <div class="col-lg-12">                        
+              
+              <div class="col-lg-6">
                   <fieldset>
-                      <button class="main-button">Make Your Reservation Now</button>
+                      <label for="modello" class="form-label">Scegli il modello: </label>
+                      <?php
+                        if($_SERVER["REQUEST_METHOD"] == "POST"){
+                          echo "<input type='text' name='modello' class='Name' value='$modello' disabled>";
+                        } else {
+                          echo "<select name='modello' class='form-select' aria-label='Default select example' onChange='this.form.click()'>
+                            <option value=''>--</option>
+                            <option value='Fiesta'>Fiesta</option>
+                            <option value='Octavia'>Octavia</option>
+                            <option value='Qashqai'>Qashqai</option>
+                            <option value='A3'>A3</option>
+                            <option value='Discovery'>Discovery</option>
+                            <option value='208'>208</option>
+                            <option value='RAV4'>RAV4</option>
+                            <option value='X3'>X3</option>
+                            <option value='Kangoo'>Kangoo</option>
+                            <option value='RAV4'>RAV4</option>
+                            <option value='Ducato'>Ducato</option>
+                            <option value='A3'>A3</option>
+                            <option value='i20'>i20</option>
+                            <option value='Corsa'>Corsa</option>
+                            <option value='Vito'>Vito</option>
+                            <option value='Sportage'>Sportage</option>
+                            <option value='Ibiza'>Ibiza</option>
+                            <option value='Outlander'>Outlander</option>
+                            <option value='Fiesta'>Fiesta</option>
+                            <option value='Ducato'>Ducato</option>
+                            <option value='Berlingo'>Berlingo</option>
+                            <option value='Octavia'>Octavia</option>
+                            <option value='Golf'>Golf</option>
+                            <option value='Sportage'>Sportage</option>
+                            <option value='Qashqai'>Qashqai</option>
+                          </select>";
+                        }
+                      ?>
+                      
                   </fieldset>
               </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                    <label for="dataInizio" class="form-label">Data inizio noleggio:</label>
+                    <input type="date" id="dataInizio" name="dataInizio" class="date" required>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                    <label for="dataFine" class="form-label">Data fine noleggio:</label>
+                    <input type="date" id="dataFine" name="dataFine" class="date" required>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-12" id="alertDate" style="display: none;">
+                <div class="alert alert-danger" role="alert">
+                  Date non valide!
+                </div>
+                <br>
+              </div>
+
+              <div class="col-lg-2"></div>
+
+              <div class="col-lg-8">
+                <fieldset>
+                  <button type="button" onclick="controllaDate()" class="main-button">Effettua la registrazione</button>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-2"></div>
             </div>
           </form>
         </div>
@@ -258,6 +443,10 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </footer>
 
+  <?php
+    $conn->close();
+  ?>
+
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
@@ -272,10 +461,24 @@ https://templatemo.com/tm-580-woox-travel
   <script src="assets/js/custom.js"></script>
 
   <script>
-    $(".option").click(function(){
+    /*$(".option").click(function(){
       $(".option").removeClass("active");
       $(this).addClass("active"); 
-    });
+    });*/
+
+    function controllaDate(){
+      var dataInizio = document.getElementById("dataInizio").value;
+      console.log(dataInizio);
+      var dataFine = document.getElementById("dataFine").value;
+
+      if(dataInizio > dataFine){
+        var popup = document.getElementById("alertDate");
+        popup.style.display = "block";
+      } else {
+        var form = document.getElementById("reservation-form");
+        form.submit();
+      }
+    }
   </script>
 
   </body>
