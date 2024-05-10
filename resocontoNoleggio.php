@@ -81,6 +81,88 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </div>
 
+
+  <?php
+include("connessione.php");
+
+function giorniTraDate($dataInizio, $dataFine) {
+    // Converti le date in oggetti DateTime
+    $inizio = new DateTime($dataInizio);
+    $fine = new DateTime($dataFine);
+    
+    // Calcola la differenza tra le due date
+    $differenza = $inizio->diff($fine);
+    
+    // Ottieni il numero di giorni dalla differenza
+    return $differenza->days;
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $nome = $_POST["nome"];
+    $cognome = $_POST["cognome"];
+    $dataNascita = $_POST["dataNascita"];
+    $mail = $_POST["mail"];
+    $numeroTel = $_POST["numeroTel"];
+    $marca = $_POST["marca"];
+    $modello = $_POST["modello"];
+    $aeroporto = $_POST["aeroporto"];
+    $dataInizio = $_POST["dataInizio"];
+    $dataFine = $_POST["dataFine"];
+
+    $prefix = uniqid(); // Genera un identificatore univoco basato sul timestamp attuale
+    $Id = substr(md5($prefix), 0, 10); // Estrae i primi 10 caratteri dall'hash md5
+    
+    $sql = "SELECT `targa` FROM `VeicoloNoleggio` WHERE `marca` = '$marca' AND `modello` = '$modello' AND `aeroporto` = '$aeroporto'";
+    $result = $conn->query($sql);
+
+    // Verifica se la query ha prodotto risultati
+    if ($result->num_rows > 0) {
+        // Output dei dati
+        while ($row = $result->fetch_assoc()) {
+            $sql1 = "SELECT COUNT(*) AS `libero`
+            FROM `PrenotazioneVeicolo`
+            WHERE `targa` = '".$row["targa"]."' AND
+                (('dataInizio' >= '$dataInizio' AND 'dataInizio' <= '$dataFine') OR
+                ('dataFine' >= '$dataInizio' AND 'dataFine' <= '$dataFine') OR
+                ('dataInizio' <= '$dataInizio' AND 'dataFine' >= '$dataFine'))";
+            $result1 = $conn->query($sql1);
+            $row1 = $result1->fetch_assoc();
+            $count = $row1['libero'];
+
+            if ($count == 0) {
+                // libero
+                $targa = $row["targa"];
+            } 
+        }
+
+        if(!(isset($targa))) {
+            echo "<script>alert('Tutti i veicoli sono occupati! Prova a rifare la prenotazione!');</script>";
+        }
+    } else {
+        echo "<script>alert('Veicolo non disponibile presso questo areoporto! Prova a rifare la prenotazione!');</script>";
+    }
+
+    if(isset($targa)) {
+        $sql = "SELECT `costoGiornaliero` FROM `VeicoloNoleggio` WHERE `targa` = '$targa'";
+        $result = $conn->query($sql);
+
+        if ($result === false) {
+            // echo "Errore nella query: " . $conn->error;
+        } else {
+            $row = $result->fetch_assoc();
+            $costoGiornaliero = $row['costoGiornaliero'];
+            $giorniPassati = giorniTraDate($dataInizio, $dataFine);
+        }
+        $costoTotale = $giorniPassati * $costoGiornaliero;
+
+        $sql = "INSERT INTO `PrenotazioneVeicolo`(`Id`, `dataInizio`, `dataFine`, `costoTotale`, `mail`, `targa`) VALUES ('$Id','$dataInizio','$dataFine',$costoTotale,'$mail','$targa')";
+
+        mysqli_query($conn, $sql);
+    }
+}
+?>
+
+
   <div class="reservation-form">
     <div class="container" style="border-radius: 24px; background-color: #f9f9f9;">
       <div class="row">
@@ -101,17 +183,23 @@ https://templatemo.com/tm-580-woox-travel
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
-                            <div class="info-item" style="background-color: white;">
-                                <span>Nome:</span>
-                                <h4>150.640 +</h4>
+                            <div class="col-lg-4">
+                                <div class="info-item" style="background-color: white;">
+                                    <span>Nome:</span>
+                                    <h4>150.640 +</h4>
+                                </div>
                             </div>
+                            <div class="col-lg-4">
+                                <div class="info-item">
+                                    <span>Nome:</span>
+                                    <h4>150.640 +</h4>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                            <div class="info-item">
-                                <h4>175.000+</h4>
-                                <span>Amazing Accomoditations</span>
-                            </div>
+                            <div class="col-lg-4">
+                                <div class="info-item">
+                                    <h4>175.000+</h4>
+                                    <span>Amazing Accomoditations</span>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                             <div class="info-item">
@@ -151,6 +239,10 @@ https://templatemo.com/tm-580-woox-travel
       </div>
     </div>
   </footer>
+
+  <?php
+    $conn->close();
+  ?>
 
 
   <!-- Scripts -->

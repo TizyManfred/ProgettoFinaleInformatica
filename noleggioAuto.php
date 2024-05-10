@@ -261,7 +261,7 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <form id="reservation-form" name="gs" method="post" action="#">
+          <form id="reservation-form" name="gs" method="post" action="resocontoNoleggio.php">
             <div class="row">
               <div class="col-lg-12">
                 <h4>Effettua <em>qui</em> il <em>noleggio</em> del <em>veicolo</em></h4>
@@ -271,7 +271,10 @@ https://templatemo.com/tm-580-woox-travel
                   <fieldset>
                       <label for="Name" class="form-label">Nome: </label>
                         <?php
-                          $sql = "SELECT `nome`, `cognome`, `dataNascita`, `numeroTelefono`  FROM `Utente` WHERE `mail` = '".$_SESSION["utente"]."'";
+                        $mail = $_SESSION["utente"];
+                          echo "<input type='text' name='mail' class='Name' value='$mail' hidden>";
+
+                          $sql = "SELECT `nome`, `cognome`, `dataNascita`, `numeroTelefono`  FROM `Utente` WHERE `mail` = '".$mail."'";
                           $result = $conn->query($sql);
         
                           if ($result === false) {
@@ -284,7 +287,8 @@ https://templatemo.com/tm-580-woox-travel
                             $numeroTelefono = $row['numeroTelefono'];
                           }
 
-                          echo "<input type='text' name='nome' class='Name' value='$nome' disabled>";
+                          echo "<input type='text' name='nome' class='Name' value='$nome' disabled>
+                          <input type='text' name='nome' class='Name' value='$nome' hidden>";
                       ?>
                   </fieldset>
               </div>
@@ -293,7 +297,8 @@ https://templatemo.com/tm-580-woox-travel
                 <fieldset>
                   <label for="cognome" class="form-label">Cognome: </label>
                   <?php
-                    echo "<input type='text' name='cognome' class='Name' value='$cognome' disabled>";
+                    echo "<input type='text' name='cognome' class='Name' value='$cognome' disabled>
+                    <input type='text' name='cognome' class='Name' value='$cognome' hidden>";
                   ?>
                 </fieldset>
               </div>
@@ -302,7 +307,8 @@ https://templatemo.com/tm-580-woox-travel
                 <fieldset>
                   <label for="dataNascita" class="form-label">Data di nascita: </label>
                   <?php
-                    echo "<input type='text' name='dataNascita' class='date' value='$dataNascita' disabled>";
+                    echo "<input style='color: #212529;' type='text' name='dataNascita' class='date' value='$dataNascita' disabled>
+                    <input style='color: #212529;' type='text' name='dataNascita' class='date' value='$dataNascita' hidden>";
                   ?>
                 </fieldset>
               </div>
@@ -311,12 +317,13 @@ https://templatemo.com/tm-580-woox-travel
                 <fieldset>
                   <label for="numeroTel" class="form-label">Numero di telefono: </label>
                   <?php
-                    echo "<input type='text' name='numeroTel' class='number' value='+39 ".$numeroTelefono."' disabled>";
+                    echo "<input type='text' name='numeroTel' class='number' value='+39 ".$numeroTelefono."' disabled>
+                    <input type='text' name='numeroTel' class='number' value='+39 ".$numeroTelefono."' hidden>";
                   ?>
                 </fieldset>
               </div>
 
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                   <fieldset>
                       <label for="marca" class="form-label">Scegli la marca: </label>
                       <?php
@@ -324,10 +331,11 @@ https://templatemo.com/tm-580-woox-travel
                           $marca = $_POST["marca"];
                           $modello = $_POST["modello"];
 
-                          echo "<input type='text' name='marca' class='Name' value='$marca' disabled>";
+                          echo "<input type='text' name='marca' class='Name' value='$marca' disabled>
+                          <input type='text' name='marca' class='Name' value='$marca' hidden>";
 
                         } else {
-                          echo "<select name='marca' class='form-select' aria-label='Default select example' onChange='this.form.click()'>
+                          echo "<select name='marca' id='marca' class='form-select' aria-label='Default select example' onChange='modificaOpzioni()'>
                           <option value=''>--</option>
                           <option value='Skoda'>Skoda</option>
                           <option value='Ford'>Ford</option>
@@ -354,43 +362,41 @@ https://templatemo.com/tm-580-woox-travel
                   </fieldset>
               </div>
               
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                   <fieldset>
                       <label for="modello" class="form-label">Scegli il modello: </label>
                       <?php
                         if($_SERVER["REQUEST_METHOD"] == "POST"){
-                          echo "<input type='text' name='modello' class='Name' value='$modello' disabled>";
+                          echo "<input type='text' name='modello' class='Name' value='$modello' disabled>
+                          <input type='text' name='modello' class='Name' value='$modello' hidden>";
                         } else {
-                          echo "<select name='modello' class='form-select' aria-label='Default select example' onChange='this.form.click()'>
-                            <option value=''>--</option>
-                            <option value='Fiesta'>Fiesta</option>
-                            <option value='Octavia'>Octavia</option>
-                            <option value='Qashqai'>Qashqai</option>
-                            <option value='A3'>A3</option>
-                            <option value='Discovery'>Discovery</option>
-                            <option value='208'>208</option>
-                            <option value='RAV4'>RAV4</option>
-                            <option value='X3'>X3</option>
-                            <option value='Kangoo'>Kangoo</option>
-                            <option value='RAV4'>RAV4</option>
-                            <option value='Ducato'>Ducato</option>
-                            <option value='A3'>A3</option>
-                            <option value='i20'>i20</option>
-                            <option value='Corsa'>Corsa</option>
-                            <option value='Vito'>Vito</option>
-                            <option value='Sportage'>Sportage</option>
-                            <option value='Ibiza'>Ibiza</option>
-                            <option value='Outlander'>Outlander</option>
-                            <option value='Fiesta'>Fiesta</option>
-                            <option value='Ducato'>Ducato</option>
-                            <option value='Berlingo'>Berlingo</option>
-                            <option value='Octavia'>Octavia</option>
-                            <option value='Golf'>Golf</option>
-                            <option value='Sportage'>Sportage</option>
-                            <option value='Qashqai'>Qashqai</option>
+                          echo "<select name='modello' id='segnaPosto' class='form-select' aria-label='Default select example' onChange='this.form.click()' disabled>
+                          <option value=''>--</option>
                           </select>";
+                          echo "<div id='modello' style='display: none;'>
+                          
+                          </div>";
                         }
                       ?>
+                      
+                  </fieldset>
+              </div>
+
+              <div class="col-lg-4">
+                  <fieldset>
+                      <label for="modello" class="form-label">Scegli l'aeroporto: </label>
+                      <select name="aeroporto" class='form-select' aria-label='Default select example' onChange='this.form.click()'>
+                        <option value=''>--</option>
+                        <option value="CDG">Charles de Gaulle</option>
+                        <option value="DXB">Dubai International Airport</option>
+                        <option value="FCO">Leonardo Da Vinci</option>
+                        <option value="FRA">Frankfurt Airport</option>
+                        <option value="JFK">Airport John Fitzgerald Kennedy International</option>
+                        <option value="MXP">Milano Malpensa</option>
+                        <option value="NRT">Narita International Airport</option>
+                        <option value="ORD">Chicago-O'Hare International Airport</option>
+                      </select>
+
                       
                   </fieldset>
               </div>
@@ -478,6 +484,86 @@ https://templatemo.com/tm-580-woox-travel
         var form = document.getElementById("reservation-form");
         form.submit();
       }
+    }
+
+
+    function modificaOpzioni() {
+      var selectBox = document.getElementById("marca");
+      var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+      var dynamicOptionsDiv = document.getElementById("modello");
+      var segnaPosto = document.getElementById("segnaPosto");
+
+      dynamicOptionsDiv.style.display = "block";
+      segnaPosto.style.display = "none";
+
+      // Cancella le opzioni dinamiche precedenti se presenti
+      var stampa = "<select name='modello' class='form-select' aria-label='Default select example' onChange='this.form.click()'><option value=''>--</option>";
+
+      // Genera le opzioni dinamiche in base alla scelta
+      switch (selectedValue) {
+        case "Ford":
+          stampa += "<option value='Fiesta'>Fiesta</option>";
+          break;
+        case "Skoda":
+          stampa += "<option value='Octavia'>Octavia</option>";
+          break;
+        case "Nissan":
+          stampa += "<option value='Qashqai'>Qashqai</option>";
+          break;
+        case "Audi":
+          stampa += "<option value='A3'>A3</option>";
+          break;
+        case "Land Rover":
+          stampa += "<option value='Discovery'>Discovery</option>";
+          break;
+        case "Peugeot":
+          stampa += "<option value='208'>208</option>";
+          break;
+        case "Toyota":
+          stampa += "<option value='RAV4'>RAV4</option>";
+          break;
+        case "BMW":
+          stampa += "<option value='X3'>X3</option>";
+          break;
+        case "Renault":
+          stampa += "<option value='Kangoo'>Kangoo</option>";
+          break;
+        case "Fiat":
+          stampa += "<option value='Ducato'>Ducato</option>";
+          break;
+        case "Hyundai":
+          stampa += "<option value='i20'>i20</option>";
+          break;
+        case "Opel":
+          stampa += "<option value='Corsa'>Corsa</option>";
+          break;
+        case "Mercedes-Benz":
+          stampa += "<option value='Vito'>Vito</option>";
+          break;
+        case "Kia":
+          stampa += "<option value='Sportage'>Sportage</option>";
+          break;
+        case "Seat":
+          stampa += "<option value='Ibiza'>Ibiza</option>";
+          break;
+        case "Mitsubishi":
+          stampa += "<option value='Outlander'>Outlander</option>";
+          break;
+        case "Opel":
+          stampa += "<option value='Corsa'>Corsa</option>";
+          break;
+        case "Citroen":
+          stampa += "<option value='Berlingo'>Berlingo</option>";
+          break;
+        case "Volkswagen":
+          stampa += "<option value='Golf'>Golf</option>";
+          break;
+      }
+
+      stampa += "</select>";
+      console.log(stampa);
+      dynamicOptionsDiv.innerHTML = stampa;
+      
     }
   </script>
 
