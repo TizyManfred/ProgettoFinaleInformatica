@@ -132,6 +132,11 @@
                             </div>";
                 }
 
+                $ip = $_SERVER['REMOTE_ADDR'];
+
+                $sql1 = "INSERT INTO `RegistroLog`(`Username`, `IP`) VALUES ($mail,$ip)";
+                $conn->query($sql1);
+
                 $conn->close();
               }
               
