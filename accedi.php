@@ -94,11 +94,10 @@
               </div>
               <div class="col-lg-3"></div>
               <?php
-              
               if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 include "connessione.php";
 
-                $mail = $_POST["mail"];
+                $mail = $conn->real_escape_string($_POST["mail"]); // Fuga dei caratteri speciali
                 $password = $_POST["password"];
 
                 $sql = "SELECT `password` FROM `Utente` WHERE `mail`='$mail'";
@@ -111,36 +110,43 @@
                       session_start();
                       $_SESSION["utente"] = $mail;
 
+                      $ip = $_SERVER['REMOTE_ADDR'];
+                      if($ip == "::1") {
+                        $ip = "127.0.0.1";
+                      }
+
+                      // Correzione nell'inserimento nel registro dei log
+                      $sql1 = "INSERT INTO `RegistroLog`(`Username`, `IP`) VALUES ('$mail', '$ip')";
+                      if ($conn->query($sql1) === TRUE) {
+                        // Inserimento nel registro dei log riuscito
+                      } else {
+                        // Gestisci l'errore nell'inserimento nel registro dei log
+                      }
+
                       header("Location: home.php");
                       exit;
-
                     } else {
                       echo "<div class='col-lg-12' id='alertPsw'>
-                              <div class='alert alert-danger' role='alert' style='text-align: center'>
-                                La password è errata!
-                              </div>
-                              <br>
-                            </div>";
+                        <div class='alert alert-danger' role='alert' style='text-align: center'>
+                          La password è errata!
+                        </div>
+                        <br>
+                      </div>";
                     }
                   }
                 } else {
                   echo "<div class='col-lg-12' id='alertUser'>
-                              <div class='alert alert-danger' role='alert' style='text-align: center'>
-                                Utente non trovato. Prima devi registrarti
-                              </div>
-                              <br>
-                            </div>";
+                    <div class='alert alert-danger' role='alert' style='text-align: center'>
+                      Utente non trovato. Prima devi registrarti
+                    </div>
+                    <br>
+                  </div>";
                 }
-
-                $ip = $_SERVER['REMOTE_ADDR'];
-
-                $sql1 = "INSERT INTO `RegistroLog`(`Username`, `IP`) VALUES ($mail,$ip)";
-                $conn->query($sql1);
 
                 $conn->close();
               }
-              
               ?>
+
               <div class="col-lg-2"></div>
               <div class="col-lg-8">
                 <fieldset>
