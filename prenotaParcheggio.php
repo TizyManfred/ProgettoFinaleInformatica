@@ -34,6 +34,13 @@ https://templatemo.com/tm-580-woox-travel
 </head>
 
 <body>
+  <?php
+  session_start();
+  if (!(isset($_SESSION["utente"]))) {
+    header("Location: accedi.php");
+    exit;
+  }
+  ?>
 
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
@@ -96,19 +103,19 @@ https://templatemo.com/tm-580-woox-travel
             <h4>Parcheggi disponibili</h4>
             <h3 style="color: #22b3c1;">
               <?php
-                include("connessione.php");
-                $sql = "SELECT COUNT(*) FROM `PostoAuto`";
-                $result = $conn->query($sql);
+              include("connessione.php");
+              $sql = "SELECT COUNT(*) FROM `PostoAuto`";
+              $result = $conn->query($sql);
 
-                if ($result === false) {
-                  //echo "Errore nella query: " . $conn->error;
-                } else {
-                  // Estrai il risultato come array associativo
-                  $row = $result->fetch_assoc();
-                  // Estrai il valore del conteggio dalla prima colonna
-                  $count = $row['COUNT(*)'];
-                  echo $count;
-                }
+              if ($result === false) {
+                //echo "Errore nella query: " . $conn->error;
+              } else {
+                // Estrai il risultato come array associativo
+                $row = $result->fetch_assoc();
+                // Estrai il valore del conteggio dalla prima colonna
+                $count = $row['COUNT(*)'];
+                echo $count;
+              }
               ?>
             </h3>
           </div>
@@ -120,18 +127,18 @@ https://templatemo.com/tm-580-woox-travel
             <h4>Aeroporti gestiti</h4>
             <h3 style="color: #22b3c1;">
               <?php
-                $sql = "SELECT COUNT(*) FROM `Aeroporti`";
-                $result = $conn->query($sql);
+              $sql = "SELECT COUNT(*) FROM `Aeroporti`";
+              $result = $conn->query($sql);
 
-                if ($result === false) {
-                  //echo "Errore nella query: " . $conn->error;
-                } else {
-                  // Estrai il risultato come array associativo
-                  $row = $result->fetch_assoc();
-                  // Estrai il valore del conteggio dalla prima colonna
-                  $count = $row['COUNT(*)'];
-                  echo $count;
-                }
+              if ($result === false) {
+                //echo "Errore nella query: " . $conn->error;
+              } else {
+                // Estrai il risultato come array associativo
+                $row = $result->fetch_assoc();
+                // Estrai il valore del conteggio dalla prima colonna
+                $count = $row['COUNT(*)'];
+                echo $count;
+              }
               ?>
             </h3>
           </div>
@@ -143,17 +150,17 @@ https://templatemo.com/tm-580-woox-travel
             <h4>Prezzo medio:</h4>
             <h3 style="color: #22b3c1;">
               <?php
-                $sql = "SELECT AVG(CostoGiornaliero) FROM `PostoAuto`";
-                $result = $conn->query($sql);
+              $sql = "SELECT AVG(CostoGiornaliero) FROM `PostoAuto`";
+              $result = $conn->query($sql);
 
-                if ($result === false) {
-                  //echo "Errore nella query: " . $conn->error;
-                } else {
-                  $row = $result->fetch_assoc();
-                  $prezzoMedio = $row['AVG(CostoGiornaliero)'];
-                  $prezzo = round($prezzoMedio, 2);
-                  echo $prezzo."€";
-                }
+              if ($result === false) {
+                //echo "Errore nella query: " . $conn->error;
+              } else {
+                $row = $result->fetch_assoc();
+                $prezzoMedio = $row['AVG(CostoGiornaliero)'];
+                $prezzo = round($prezzoMedio, 2);
+                echo $prezzo . "€";
+              }
               ?>
             </h3>
           </div>
@@ -179,78 +186,83 @@ https://templatemo.com/tm-580-woox-travel
         <div class="col-lg-12">
           <div class="owl-weekly-offers owl-carousel">
 
-          <?php
+            <?php
             $sql = "SELECT DISTINCT `Dimensioni` FROM `PostoAuto`";
             $result = $conn->query($sql);
 
-            if ($result === true) {
-              //echo "Errore nella query: " . $conn->error;
+            if ($result === false) {
+              echo "Errore nella query: " . $conn->error;
             } else {
               if ($result->num_rows > 0) {
                 // Output dei dati di ogni riga
-                while($row = $result->fetch_assoc()) {
+                while ($row = $result->fetch_assoc()) {
 
-                  $sql2 = "SELECT AVG(CostoGiornaliero) AS 'costoMedio' FROM `PostoAuto` WHERE `Dimensioni` = '".$row['Dimensioni']."'";
+                  $sql2 = "SELECT AVG(CostoGiornaliero) AS `costoMedio` FROM `PostoAuto` WHERE `Dimensioni` = '" . $row['Dimensioni'] . "'";
                   $result2 = $conn->query($sql2);
 
                   if ($result2 === false) {
-                    //echo "Errore nella query: " . $conn->error;
+                    echo "Errore nella query: " . $conn->error;
                   } else {
                     $row2 = $result2->fetch_assoc();
-                    $prezzoMedioParcheggio = $row2['costoMedio'];
-                    $prezzoParcheggio = round($prezzoMedioAuto, 2);
+                    $prezzoParcheggio = round($row2['costoMedio'], 2);
                   }
 
-                  $sql3 = "SELECT COUNT(*) FROM `PostoAuto` WHERE `Dimensioni`= '".$row['Dimensioni']."'";
+                  $sql3 = "SELECT COUNT(*) AS `numParcheggi` FROM `PostoAuto` WHERE `Dimensioni`= '" . $row['Dimensioni'] . "'";
                   $result3 = $conn->query($sql3);
 
                   if ($result3 === false) {
-                    //echo "Errore nella query: " . $conn->error;
+                    echo "Errore nella query: " . $conn->error;
                   } else {
                     $row3 = $result3->fetch_assoc();
-                    $numParcheggi = $row3['COUNT(*)'];
+                    $numParcheggi = $row3['numParcheggi'];
                   }
 
-                  if($row['dimensioni'] == "Grande"){
-                    $dimensioni = "4,8 x 2,4";
-                  } else {
-                    if($row['dimensioni'] == "Medie"){
+                  $dimensioni = "";
+                  $img = "";
+                  switch ($row['Dimensioni']) {
+                    case "Grande":
+                      $dimensioni = "4,8 x 2,4";
+                      $img = "https://img.freepik.com/premium-vector/parking-lot-with-car-city-background-car-parking-icon-parking-space-parking-lot-car-parking-concept-vector-illustration_735449-108.jpg?size=626&ext=jpg";
+                      break;
+                    case "Medio":
                       $dimensioni = "5,2 x 2,55";
-                    } else {
+                      $img = "https://i.pinimg.com/736x/78/b4/9b/78b49b274519ecc816bfc5d4bbe7631e.jpg";
+                      break;
+                    case "Piccolo":
                       $dimensioni = "5,5 x 2,7";
-                    }
+                      $img = "https://img.freepik.com/premium-vector/car-parking-sign-parking-space-icon-parking-lot-car-parking-flat-style-vector-illustration-web-element_435184-1157.jpg";
+                      break;
                   }
 
                   echo "<div class='item'>
-                  <div class='thumb'>
-                  <img src='"."' alt=''>
-                    <div class='text'>
-                      <h4><span>Parcheggio</span><br>".$row['Dimensioni']."</h4>
-                      <h6>".$prezzoParcheggio."€<br><span>/giorno</span></h6>
-                      <div class='line-dec'></div>
-                      <ul>
-                        <li>Dettagli:</li>
-                        <li><i class='bi bi-p-square-fill'></i> ".$numParcheggi." posti auto disponibili</li>
-                        <li><i class='bi bi-car-front-fill'></i> ".$dimensioni." m</li>
-                      </ul>
-                      <div class='main-button'>
-                        <form method='POST' action='prenotaParcheggio.php'>
-                          <input name='dimensioni' value='".$row['Dimensioni']."' hidden>
-                          <button style='border-style: none; background-color: white;' type='submit'><a>Prenota ora</a></button>
-                        </form>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>";
+                          <div class='thumb'>
+                            <img src='" . $img . "' alt=''>
+                            <div class='text'>
+                              <h4><span>Parcheggio</span><br>" . $row['Dimensioni'] . "</h4>
+                              <h6>" . $prezzoParcheggio . "€<br><span>/giorno</span></h6>
+                              <div class='line-dec'></div>
+                              <ul>
+                                <li>Dettagli:</li>
+                                <li><i class='bi bi-p-square-fill'></i> " . $numParcheggi . " posti auto disponibili</li>
+                                <li><i class='bi bi-car-front-fill'></i> " . $dimensioni . " m</li>
+                              </ul>
+                              <div class='main-button'>
+                                <form method='POST' action='prenotaParcheggio.php'>
+                                  <input name='dimen' value='" . $row['Dimensioni'] . "' hidden>
+                                  <button style='border-style: none; background-color: white;' type='submit'><a>Prenota ora</a></button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>";
                 }
               } else {
-                //echo "0 risultati";
+                echo "0 risultati";
               }
             }
-          ?>
+            ?>
 
-          
+
           </div>
         </div>
       </div>
@@ -260,65 +272,168 @@ https://templatemo.com/tm-580-woox-travel
   <div class="reservation-form">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          <div id="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth" width="100%" height="450px" frameborder="0" style="border:0; border-top-left-radius: 23px; border-top-right-radius: 23px;" allowfullscreen=""></iframe>
-          </div>
-        </div>
 
         <div class="col-lg-12">
           <form id="reservation-form" name="gs" method="submit" role="search" action="#">
             <div class="row">
               <div class="col-lg-12">
-                <h4>Make Your <em>Reservation</em> Through This <em>Form</em></h4>
+                <h4>Effettua <em>qui</em> la <em>prenotazione</em> dello <em>stallo</em></h4>
               </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="Name" class="form-label">Your Name</label>
-                  <input type="text" name="Name" class="Name" placeholder="Ex. John Smithee" autocomplete="on" required>
+                  <label for="Name" class="form-label">Nome: </label>
+                  <?php
+                  $mail = $_SESSION["utente"];
+                  echo "<input type='text' name='mail' class='Name' value='$mail' hidden>";
+
+                  $sql = "SELECT `nome`, `cognome`, `dataNascita`, `numeroTelefono`  FROM `Utente` WHERE `mail` = '" . $mail . "'";
+                  $result = $conn->query($sql);
+
+                  if ($result === false) {
+                    //echo "Errore nella query: " . $conn->error;
+                  } else {
+                    $row = $result->fetch_assoc();
+                    $nome = $row['nome'];
+                    $cognome = $row['cognome'];
+                    $dataNascita = $row['dataNascita'];
+                    $numeroTelefono = $row['numeroTelefono'];
+                  }
+
+                  echo "<input type='text' name='nome' class='Name' value='$nome' disabled>
+                          <input type='text' name='nome' class='Name' value='$nome' hidden>";
+                  ?>
                 </fieldset>
               </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="Number" class="form-label">Your Phone Number</label>
-                  <input type="text" name="Number" class="Number" placeholder="Ex. +xxx xxx xxx" autocomplete="on" required>
+                  <label for="cognome" class="form-label">Cognome: </label>
+                  <?php
+                  echo "<input type='text' name='cognome' class='Name' value='$cognome' disabled>
+                    <input type='text' name='cognome' class='Name' value='$cognome' hidden>";
+                  ?>
                 </fieldset>
               </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="chooseGuests" class="form-label">Number Of Guests</label>
-                  <select name="Guests" class="form-select" aria-label="Default select example" id="chooseGuests" onChange="this.form.click()">
-                    <option selected>ex. 3 or 4 or 5</option>
-                    <option type="checkbox" name="option1" value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4+">4+</option>
+                  <label for="dataNascita" class="form-label">Data di nascita: </label>
+                  <?php
+                  echo "<input style='color: #212529;' type='text' name='dataNascita' class='date' value='$dataNascita' disabled>
+                    <input style='color: #212529;' type='text' name='dataNascita' class='date' value='$dataNascita' hidden>";
+                  ?>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="numeroTel" class="form-label">Numero di telefono: </label>
+                  <?php
+                  echo "<input type='text' name='numeroTel' class='number' value='+39 " . $numeroTelefono . "' disabled>
+                    <input type='text' name='numeroTel' class='number' value='+39 " . $numeroTelefono . "' hidden>";
+                  ?>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="aeroporto" class="form-label">Scegli l'aeroporto: </label>
+                  <select name="aeroporto" class='form-select' aria-label='Default select example' onChange='getParcheggi(this.value)'>
+                    <option value=''>--</option>
+                    <option value="CDG">Charles de Gaulle</option>
+                    <option value="DXB">Dubai International Airport</option>
+                    <option value="FCO">Leonardo Da Vinci</option>
+                    <option value="FRA">Frankfurt Airport</option>
+                    <option value="JFK">Airport John Fitzgerald Kennedy International</option>
+                    <option value="MXP">Milano Malpensa</option>
+                    <option value="NRT">Narita International Airport</option>
+                    <option value="ORD">Chicago-O'Hare International Airport</option>
                   </select>
                 </fieldset>
               </div>
+
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="Number" class="form-label">Check In Date</label>
-                  <input type="date" name="date" class="date" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <label for="chooseDestination" class="form-label">Choose Your Destination</label>
-                  <select name="Destination" class="form-select" aria-label="Default select example" id="chooseCategory" onChange="this.form.click()">
-                    <option selected>ex. Switzerland, Lausanne</option>
-                    <option value="Italy, Roma">Italy, Roma</option>
-                    <option value="France, Paris">France, Paris</option>
-                    <option value="Engaland, London">Engaland, London</option>
-                    <option value="Switzerland, Lausanne">Switzerland, Lausanne</option>
+                  <label for="parcheggio" class="form-label">Scegli il parcheggio: </label>
+                  <select name="parcheggio" id="selectParcheggi" class='form-select' aria-label='Default select example'>
+                    <option value=''>--</option>
                   </select>
                 </fieldset>
               </div>
-              <div class="col-lg-12">
+
+              <div class="col-lg-6">
                 <fieldset>
-                  <button class="main-button">Make Your Reservation Now</button>
+                  <label for="dimensioni" class="form-label">Scegli la dimensione del parcheggio: </label>
+                  <?php
+                  if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    $dimensioni = $_POST["dimen"];
+                    echo "<input type='text' name='dimensioni' class='number' value='" . $dimensioni . "' disabled>
+                    <input type='text' name='dimensioni' class='number' value='" . $dimensioni . "' hidden>";
+                  } else {
+                    echo "<select name='dimensioni' class='form-select' aria-label='Default select example'>
+                            <option value=''>--</option>
+                            <option value='Grande'>Grande</option>
+                            <option value='Medio'>Medio</option>
+                            <option value='Piccolo'>Piccolo</option>
+                          </select>";
+                  }
+                  ?>
                 </fieldset>
               </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="veicolo" class="form-label">Veicolo: </label>
+                  <?php
+                  $sql = "SELECT `targa` FROM `Veicolo` WHERE `mail` = '" . $_SESSION['utente'] . "'";
+                  $result = $conn->query($sql);
+
+                  if ($result->num_rows > 0) {
+                    // Output dei dati di ogni riga
+                    echo "<select name='targa' class='form-select' aria-label='Default select example'>";
+                    while ($row = $result->fetch_assoc()) {
+                      echo "<option value='" . $row['targa'] . "'>" . $row['targa'] . "</option>";
+                    }
+                    echo "</select>";
+                  } else {
+                    echo "<input type='text' name='targa' class='form-control' placeholder='Inserisci la targa' disabled>";
+                  }
+                  ?>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="dataInizio" class="form-label">Data inizio noleggio:</label>
+                  <input type="date" id="dataInizio" name="dataInizio" class="date" required>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset>
+                  <label for="dataFine" class="form-label">Data fine noleggio:</label>
+                  <input type="date" id="dataFine" name="dataFine" class="date" required>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-12" id="alertDate" style="display: none;">
+                <div class="alert alert-danger" role="alert">
+                  Date non valide!
+                </div>
+                <br>
+              </div>
+
+              <div class="col-lg-2"></div>
+
+              <div class="col-lg-8">
+                <fieldset>
+                  <button type="button" onclick="controllaDate()" class="main-button">Effettua la registrazione</button>
+                </fieldset>
+              </div>
+
+              <div class="col-lg-2"></div>
+
             </div>
           </form>
         </div>
@@ -338,6 +453,11 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </footer>
 
+  <?php
+  $conn->close();
+  ?>
+
+
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
@@ -353,8 +473,54 @@ https://templatemo.com/tm-580-woox-travel
 
   <script>
     $(".option").click(function() {
-      $(".option").removeClass("active");
-      $(this).addClass("active");
+      $(".collapse").collapse("hide");
+    });
+  </script>
+  <script>
+    function controllaDate() {
+      var dataInizio = document.getElementById("dataInizio").value;
+      var dataFine = document.getElementById("dataFine").value;
+
+      var dataI = new Date(dataInizio);
+      var dataF = new Date(dataFine);
+      var dataOggi = new Date();
+
+      if (dataI >= dataF || dataI < dataOggi || dataF < dataOggi) {
+        document.getElementById("alertDate").style.display = "block";
+      } else {
+        document.getElementById("alertDate").style.display = "none";
+        document.getElementById("reservation-form").submit();
+      }
+    }
+  </script>
+
+  <script>
+    function getParcheggi(aeroporto) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var selectParcheggi = document.getElementById("selectParcheggi");
+            selectParcheggi.innerHTML = this.responseText;
+        }
+    };
+    xhr.open("POST", "getParcheggi.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("aeroporto=" + aeroporto);
+}
+  </script>
+
+  <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".swiper-container", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      slidesPerGroup: 3,
+      loop: true,
+      loopFillGroupWithBlank: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
     });
   </script>
 
