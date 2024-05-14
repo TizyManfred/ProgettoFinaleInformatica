@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>About Us</title>
+  <title>About Us</title>
 
-    <link rel="icon" type="image/png" href="assets/images/immagineLogoOriginale.png">
+  <link rel="icon" type="image/png" href="assets/images/immagineLogoOriginale.png">
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<!--
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
+  <link rel="stylesheet" href="assets/css/owl.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+  <!--
 
 TemplateMo 580 Woox Travel
 
 https://templatemo.com/tm-580-woox-travel
 
 -->
-  </head>
+</head>
 
 <body>
 
@@ -48,24 +48,25 @@ https://templatemo.com/tm-580-woox-travel
   <!-- ***** Header Area Start ***** -->
   <header class="header-area header-sticky">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="main-nav">
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                      <li><a href="home.php">Home</a></li>
-                      <li><a href="about.php" class="active">About</a></li>
-                      <li><a href="noleggioAuto.php">Noleggio</a></li>
-                      <li><a href="prenotaParcheggio.php">Prenotazioni</a></li>
-                      <li><a href="storico.php">Visualizza Stotico</a></li>
-                    </ul>  
-                    <a class='menu-trigger'>
-                        <span>Menu</span>
-                    </a>
-                    <!-- ***** Menu End ***** -->
-                </nav>
-            </div>
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li><a href="home.php">Home</a></li>
+              <li><a href="about.php" class="active">About</a></li>
+              <li><a href="noleggioAuto.php">Noleggio</a></li>
+              <li><a href="prenotaParcheggio.php" class="active">Prenotazioni</a></li>
+              <li><a href="storico.php">Visualizza Stotico</a></li>
+              <li><a href="inserisciVeicolo.php">Inserisci Veicolo</a></li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
         </div>
+      </div>
     </div>
   </header>
   <!-- ***** Header Area End ***** -->
@@ -90,7 +91,7 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </div>
   <!-- ***** Main Banner Area End ***** -->
-  
+
   <div class="cities-town">
     <div class="container">
       <div class="row">
@@ -354,66 +355,66 @@ https://templatemo.com/tm-580-woox-travel
         <div class="col-lg-8 offset-lg-2">
           <div class="options">
             <div class="option active" style="--optionBackground:url(https://buttoncreatives.com/html/woox/assets/images/best-01.jpg);">
-               <div class="shadow"></div>
-               <div class="label">
-                  <div class="icon">
-                     <i class="fas fa-expand"></i>
-                  </div>
-                  <div class="info">
-                     <div class="main">Havana</div>
-                     <div class="sub">Population: 2M</div>
-                  </div>
-               </div>
+              <div class="shadow"></div>
+              <div class="label">
+                <div class="icon">
+                  <i class="fas fa-expand"></i>
+                </div>
+                <div class="info">
+                  <div class="main">Havana</div>
+                  <div class="sub">Population: 2M</div>
+                </div>
+              </div>
             </div>
             <div class="option" style="--optionBackground:url(https://buttoncreatives.com/html/woox/assets/images/best-02.jpg);">
-               <div class="shadow"></div>
-               <div class="label">
-                  <div class="icon">
-                    <i class="fas fa-expand"></i>
-                  </div>
-                  <div class="info">
-                     <div class="main">Kingston</div>
-                     <div class="sub">Population: 3.5M</div>
-                  </div>
-               </div>
+              <div class="shadow"></div>
+              <div class="label">
+                <div class="icon">
+                  <i class="fas fa-expand"></i>
+                </div>
+                <div class="info">
+                  <div class="main">Kingston</div>
+                  <div class="sub">Population: 3.5M</div>
+                </div>
+              </div>
             </div>
             <div class="option" style="--optionBackground:url(https://buttoncreatives.com/html/woox/assets/images/best-03.jpg);">
-               <div class="shadow"></div>
-               <div class="label">
-                  <div class="icon">
-                    <i class="fas fa-expand"></i>
-                  </div>
-                  <div class="info">
-                     <div class="main">London</div>
-                     <div class="sub">Population: 4.1M</div>
-                  </div>
-               </div>
+              <div class="shadow"></div>
+              <div class="label">
+                <div class="icon">
+                  <i class="fas fa-expand"></i>
+                </div>
+                <div class="info">
+                  <div class="main">London</div>
+                  <div class="sub">Population: 4.1M</div>
+                </div>
+              </div>
             </div>
             <div class="option" style="--optionBackground:url(https://buttoncreatives.com/html/woox/assets/images/best-04.jpg);">
-               <div class="shadow"></div>
-               <div class="label">
-                  <div class="icon">
-                    <i class="fas fa-expand"></i>
-                  </div>
-                  <div class="info">
-                     <div class="main">Pristina</div>
-                     <div class="sub">Population: 520K</div>
-                  </div>
-               </div>
+              <div class="shadow"></div>
+              <div class="label">
+                <div class="icon">
+                  <i class="fas fa-expand"></i>
+                </div>
+                <div class="info">
+                  <div class="main">Pristina</div>
+                  <div class="sub">Population: 520K</div>
+                </div>
+              </div>
             </div>
             <div class="option" style="--optionBackground:url(https://buttoncreatives.com/html/woox/assets/images/best-05.jpg);">
-               <div class="shadow"></div>
-               <div class="label">
-                  <div class="icon">
-                    <i class="fas fa-expand"></i>
-                  </div>
-                  <div class="info">
-                     <div class="main">Paris</div>
-                     <div class="sub">Population: 3M</div>
-                  </div>
-               </div>
+              <div class="shadow"></div>
+              <div class="label">
+                <div class="icon">
+                  <i class="fas fa-expand"></i>
+                </div>
+                <div class="info">
+                  <div class="main">Paris</div>
+                  <div class="sub">Population: 3M</div>
+                </div>
+              </div>
             </div>
-         </div>
+          </div>
         </div>
         <div class="col-lg-12">
           <div class="main-button text-center">
@@ -444,8 +445,9 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <p>Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights reserved. 
-          <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
+          <p>Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights reserved.
+            <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a>
+          </p>
         </div>
       </div>
     </div>
@@ -465,12 +467,12 @@ https://templatemo.com/tm-580-woox-travel
   <script src="assets/js/custom.js"></script>
 
   <script>
-    $(".option").click(function(){
+    $(".option").click(function() {
       $(".option").removeClass("active");
-      $(this).addClass("active"); 
+      $(this).addClass("active");
     });
   </script>
 
-  </body>
+</body>
 
 </html>

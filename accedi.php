@@ -45,6 +45,7 @@
               <li><a href="#">Noleggio</a></li>
               <li><a href="#">Prenotazioni</a></li>
               <li><a href="#">Visualizza Storico</a></li>
+              <li><a href="#">Inserisci Veicolo</a></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>

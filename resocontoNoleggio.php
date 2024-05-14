@@ -57,6 +57,7 @@ https://templatemo.com/tm-580-woox-travel
               <li><a href="noleggioAuto.php">Noleggio</a></li>
               <li><a href="prenotaParcheggio.php">Prenotazioni</a></li>
               <li><a href="storico.php">Visualizza Stotico</a></li>
+              <li><a href="inserisciVeicolo.php">Inserisci Veicolo</a></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
