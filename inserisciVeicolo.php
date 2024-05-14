@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <li><a href="home.php">Home</a></li>
               <li><a href="about.php">About</a></li>
               <li><a href="noleggioAuto.php">Noleggio</a></li>
-              <li><a href="prenotaParcheggio.php" class="active">Prenotazioni</a></li>
+              <li><a href="prenotaParcheggio.php">Prenotazioni</a></li>
               <li><a href="storico.php">Visualizza Stotico</a></li>
               <li><a href="inserisciVeicolo.php" class="active">Inserisci Veicolo</a></li>
             </ul>
