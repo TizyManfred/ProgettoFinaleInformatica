@@ -84,6 +84,12 @@ https://templatemo.com/tm-580-woox-travel
 
 
   <?php
+  session_start();
+  if (!(isset($_SESSION["utente"]))) {
+    header("Location: accedi.php");
+    exit;
+  }
+  
   include("connessione.php");
 
   function giorniTraDate($dataInizio, $dataFine)

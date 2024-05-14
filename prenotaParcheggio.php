@@ -275,7 +275,7 @@ https://templatemo.com/tm-580-woox-travel
       <div class="row">
 
         <div class="col-lg-12">
-          <form id="reservation-form" name="gs" method="submit" role="search" action="resocontoPrenotazione.php">
+          <form id="reservation-form" name="gs" method="Post"  action="resocontoPrenotazione.php">
             <div class="row">
               <div class="col-lg-12">
                 <h4>Effettua <em>qui</em> la <em>prenotazione</em> dello <em>stallo</em></h4>

@@ -31,6 +31,15 @@ https://templatemo.com/tm-580-woox-travel
   </head>
 
 <body>
+  <?php
+  session_start();
+  if (!(isset($_SESSION["utente"]))) {
+    header("Location: accedi.php");
+    exit;
+  }
+
+  include("connessione.php");
+  ?>
 
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
@@ -75,9 +84,9 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <h4>Discover Our Weekly Offers</h4>
-          <h2>Amazing Prices &amp; More</h2>
-          <div class="border-button"><a href="about.html">Discover More</a></div>
+          <h4>Scopri tutte le tue prenotazioni e i tuoi noleggi</h4>
+          <h2>Visualizza lo storico</h2>
+          <div class="border-button"><a href="about.html">Scopri di più su di noi</a></div>
         </div>
       </div>
     </div>
@@ -90,39 +99,35 @@ https://templatemo.com/tm-580-woox-travel
           <form id="search-form" name="gs" method="submit" role="search" action="#">
             <div class="row">
               <div class="col-lg-2">
-                <h4>Sort Deals By:</h4>
+                <h4>Creca per:</h4>
               </div>
               <div class="col-lg-4">
                   <fieldset>
-                      <select name="Location" class="form-select" aria-label="Default select example" id="chooseLocation" onChange="this.form.click()">
-                          <option selected>Destinations</option>
-                          <option type="checkbox" name="option1" value="Italy">Italy</option>
-                          <option value="France">France</option>
-                          <option value="Switzerland">Switzerland</option>
-                          <option value="Thailand">Thailand</option>
-                          <option value="Australia">Australia</option>
-                          <option value="India">India</option>
-                          <option value="Indonesia">Indonesia</option>
-                          <option value="Malaysia">Malaysia</option>
-                          <option value="Singapore">Singapore</option>
-                      </select>
+                  <select name="aeroporto" class='form-select' aria-label='Default select example' onChange='this.form.click()'>
+                    <option value=''>Aeroporto di partenza</option>
+                    <option value="CDG">Charles de Gaulle</option>
+                    <option value="DXB">Dubai International Airport</option>
+                    <option value="FCO">Leonardo Da Vinci</option>
+                    <option value="FRA">Frankfurt Airport</option>
+                    <option value="JFK">Airport John Fitzgerald Kennedy International</option>
+                    <option value="MXP">Milano Malpensa</option>
+                    <option value="NRT">Narita International Airport</option>
+                    <option value="ORD">Chicago-O'Hare International Airport</option>
+                  </select>
                   </fieldset>
               </div>
               <div class="col-lg-4">
                   <fieldset>
-                      <select name="Price" class="form-select" aria-label="Default select example" id="choosePrice" onChange="this.form.click()">
-                          <option selected>Price Range</option>
-                          <option value="100">$100 - $250</option>
-                          <option value="250">$250 - $500</option>
-                          <option value="500">$500 - $1,000</option>
-                          <option value="1000">$1,000 - $2,500</option>
-                          <option value="2500+">$2,500+</option>
+                      <select name="tipo" class="form-select" aria-label="Default select example" onChange="this.form.click()">
+                          <option value="">Servizio richiesto</option>
+                          <option value="prenotazione">Prenotazione parcheggio</option>
+                          <option value="noleggio">Noleggio auto</option>
                       </select>
                   </fieldset>
               </div>
               <div class="col-lg-2">                        
                   <fieldset>
-                      <button class="border-button">Search Results</button>
+                      <button class="border-button">Trova risultati</button>
                   </fieldset>
               </div>
             </div>
@@ -141,12 +146,13 @@ https://templatemo.com/tm-580-woox-travel
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           </div>
         </div>
+
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
               <div class="col-lg-6">
                 <div class="image">
-                  <img src="assets/images/deals-01.jpg" alt="">
+                  <img src="" alt="">
                 </div>
               </div>
               <div class="col-lg-6 align-self-center">
@@ -172,6 +178,7 @@ https://templatemo.com/tm-580-woox-travel
             </div>
           </div>
         </div>
+
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -203,6 +210,7 @@ https://templatemo.com/tm-580-woox-travel
             </div>
           </div>
         </div>
+
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -234,6 +242,7 @@ https://templatemo.com/tm-580-woox-travel
             </div>
           </div>
         </div>
+
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -265,15 +274,7 @@ https://templatemo.com/tm-580-woox-travel
             </div>
           </div>
         </div>
-        <div class="col-lg-12">
-          <ul class="page-numbers">
-            <li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
-          </ul>
-        </div>
+
       </div>
     </div>
   </div>
@@ -282,12 +283,16 @@ https://templatemo.com/tm-580-woox-travel
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
-          <h2>Are You Looking To Travel ?</h2>
-          <h4>Make A Reservation By Clicking The Button</h4>
+          <h2>Devi fare un viaggio e ti serve un aiuto per la gestione dei veicoli in aereoporto?</h2>
+          <h4>Effettua una prenotazione cliccando sui bottoni qui a fianco</h4>
         </div>
         <div class="col-lg-4">
           <div class="border-button">
-            <a href="reservation.html">Book Yours Now</a>
+            <a href="prenotaParcheggio.php">Prenota parcheggio</a>
+          </div>
+          <br>
+          <div class="border-button">
+            <a href="noleggioAuto.php">Noleggia veicolo</a>
           </div>
         </div>
       </div>
@@ -305,6 +310,9 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </footer>
 
+  <?php
+    $conn->close();
+  ?>
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
