@@ -274,7 +274,7 @@ https://templatemo.com/tm-580-woox-travel
       <div class="row">
 
         <div class="col-lg-12">
-          <form id="reservation-form" name="gs" method="submit" role="search" action="#">
+          <form id="reservation-form" name="gs" method="submit" role="search" action="resocontoPrenotazione.php">
             <div class="row">
               <div class="col-lg-12">
                 <h4>Effettua <em>qui</em> la <em>prenotazione</em> dello <em>stallo</em></h4>
@@ -397,7 +397,11 @@ https://templatemo.com/tm-580-woox-travel
                     }
                     echo "</select>";
                   } else {
-                    echo "<input type='text' name='targa' class='form-control' placeholder='Inserisci la targa' disabled>";
+                    if ($result->num_rows == 1) {
+                      echo "<input type='text' name='targa' class='form-control' value='".$row['targa']."' disabled>";
+                    } else {
+                      echo "<input type='text' name='targa' id='errore' class='form-control' placeholder='Nessun veicolo disponibile' disabled>";
+                    }
                   }
                   ?>
                 </fieldset>
@@ -428,7 +432,7 @@ https://templatemo.com/tm-580-woox-travel
 
               <div class="col-lg-8">
                 <fieldset>
-                  <button type="button" onclick="controllaDate()" class="main-button">Effettua la registrazione</button>
+                  <button type="button" onclick="controlla()" class="main-button">Effettua la registrazione</button>
                 </fieldset>
               </div>
 
@@ -477,7 +481,7 @@ https://templatemo.com/tm-580-woox-travel
     });
   </script>
   <script>
-    function controllaDate() {
+    function controlla() {
       var dataInizio = document.getElementById("dataInizio").value;
       var dataFine = document.getElementById("dataFine").value;
 
