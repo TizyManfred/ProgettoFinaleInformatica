@@ -19,6 +19,9 @@
 
             $passwordCritt = password_hash($password1, PASSWORD_DEFAULT);
 
+            $dataNascita = new DateTime($dataNascita);
+            $dataConvertita = new DateTime($dataConvertita);
+
             $dataNascita = date("d-m-Y");
             $dataNascita = $_POST["dataNascita"];
             $dataConvertita = date("Y-m-d", strtotime($dataNascita));

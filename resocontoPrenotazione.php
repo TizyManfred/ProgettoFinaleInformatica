@@ -106,7 +106,7 @@
         $dataNascita = $_POST["dataNascita"] ?? "--";
         $mail = $_POST["mail"] ?? "--";
         $numeroTel = $_POST["numeroTel"] ?? "--";
-        $nomeParcheggio = $_POST["parcheggio"] ?? "--";
+        $codiceParcheggio = $_POST["parcheggio"] ?? "--";
         $dimensioni = $_POST["dimensioni"] ?? "--";
         $targa = $_POST["targa"] ?? "--";
         $aeroporto = $_POST["aeroporto"] ?? "--";
@@ -116,7 +116,7 @@
         $prefix = uniqid(); // Genera un identificatore univoco basato sul timestamp attuale
         $Id = substr(md5($prefix), 0, 10); // Estrae i primi 10 caratteri dall'hash md5
 
-        $sql = "SELECT `codice`, `citta`, `indirizzo` FROM `Parcheggio` WHERE `nome` = '$nomeParcheggio' AND `aeroporto` = '$aeroporto'";
+        $sql = "SELECT `nome`, `citta`, `indirizzo` FROM `Parcheggio` WHERE `codice` = '$codiceParcheggio' AND `aeroporto` = '$aeroporto'";
         $result = $conn->query($sql);
 
         if ($result === false) {
@@ -124,7 +124,7 @@
         } else {
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                $codiceParcheggio = $row['codice'];
+                $nomeParcheggio = $row['nome'];
                 $cittaParcheggio = $row['citta'];
                 $indirizzoParcheggio = $row['indirizzo'];
             } else {
@@ -152,12 +152,13 @@
         if ($result->num_rows > 0) {
             // Output dei dati
             while ($row = $result->fetch_assoc()) {
+                $numero = $row["Numero"];
                 $sql1 = "SELECT COUNT(*) AS `libero`
-            FROM `PrenotazioneStallo`
-            WHERE `NumeroParcheggio` = " . $row["Numero"] . " AND `CodiceParcheggio` = '$codiceParcheggio' AND
-                (('dataInizio' >= '$dataInizio' AND 'dataInizio' <= '$dataFine') OR
-                ('dataFine' >= '$dataInizio' AND 'dataFine' <= '$dataFine') OR
-                ('dataInizio' <= '$dataInizio' AND 'dataFine' >= '$dataFine'))";
+                        FROM `PrenotazioneStallo`
+                        WHERE `NumeroParcheggio` = $numero AND `CodiceParcheggio` = $codiceParcheggio AND
+                            (('dataInizio' >= $dataInizio AND 'dataInizio' <= $dataFine) OR
+                            ('dataFine' >= $dataInizio AND 'dataFine' <= $dataFine) OR
+                            ('dataInizio' <= $dataInizio AND 'dataFine' >= $dataFine))";
 
                 //ERRORE NEL CONNTROLLO
 
