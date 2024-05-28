@@ -340,7 +340,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoporto MXP (Milano)</h4>
+                          <h4>Aeroporto MXP (Milano)</h4>
                           <span>Italia</span>
                           <div class="main-button">
                             <a href="https://www.milanomalpensa-airport.com/it" target="_blank">Maggiori informazioni</a>
@@ -370,7 +370,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoposto CDG (Parigi)</h4>
+                          <h4>Aeroposto CDG (Parigi)</h4>
                           <span>Francia</span>
                           <div class="main-button">
                             <a href="https://www.parisaeroport.fr/en" target="_blank">Maggiori informazioni</a>
@@ -436,7 +436,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoporto FRA <br>(Francoforte sul Meno)</h4>
+                          <h4>Aeroporto FRA <br>(Francoforte sul Meno)</h4>
                           <span>Germania</span>
                           <div class="main-button">
                             <a href="https://www.frankfurt-airport.com/en.html" target="_blank">Maggiori informazioni</a>
@@ -466,7 +466,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoposto FCO (Roma)</h4>
+                          <h4>Aeroposto FCO (Roma)</h4>
                           <span>Italia</span>
                           <div class="main-button">
                             <a href="https://www.adr.it/fiumicino" target="_blank">Maggiori informazioni</a>
@@ -498,7 +498,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoporto NRT (Narita)</h4>
+                          <h4>Aeroporto NRT (Narita)</h4>
                           <span>Giappone</span>
 
                           <div class="main-button">
@@ -532,7 +532,7 @@
 
                       <div class="col-lg-8 col-sm-7">
                         <div class="right-content">
-                          <h4>Areoporto ORD (Chicago)</h4>
+                          <h4>Aeroporto ORD (Chicago)</h4>
                           <span>Stati Uniti</span>
                           <div class="main-button">
                             <a href="https://www.flychicago.com/ohare/home/pages/default.aspx" target="_blank">Maggiori informazioni</a>
